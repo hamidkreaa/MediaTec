@@ -41,18 +41,31 @@ namespace MediaTec.Controllers
         public ActionResult New()
         {
             var membershipTypes = _context.MembershipType.ToList();
-            var viewModel = new NewCustomerViewModel
+            var viewModel = new CustomerFormViewModel
             {
                 MembershipTypes= membershipTypes
             };
-            return View(viewModel);
+            return View("CustomerForm", viewModel);
         }
 
         //Create Customer
         [HttpPost]
-        public ActionResult Create(Customer customer)
+        public ActionResult Save(Customer customer)
         {
-            _context.Customers.Add(customer);
+            if(customer.Id ==0)
+                _context.Customers.Add(customer);
+            else
+            {
+                var customerInDB = _context.Customers.Single(c => c.Id == customer.Id);
+
+                // TryUpdateModel(customerInDB);
+                //Mapper.Map(customer, customerInDB);
+
+                customerInDB.Name = customer.Name;
+                customerInDB.Birthdate = customer.Birthdate;
+                customerInDB.MembershipTypeId = customer.MembershipTypeId;
+                customerInDB.IsSubscriebedToNewsletter = customer.IsSubscriebedToNewsletter;
+            }
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Customers");
@@ -62,12 +75,15 @@ namespace MediaTec.Controllers
         public ActionResult Edit(int id)
         {            
             var customer = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(c => c.Id == id);
-            if (customer == null)
-            {
+            if (customer == null)           
                 return HttpNotFound();
-            }
 
-            return View(customer);
+            var viewModel = new CustomerFormViewModel
+            {
+                Customer = customer,
+                MembershipTypes = _context.MembershipType.ToList()
+            };
+            return View("CustomerForm", viewModel);
         }
 
         public ActionResult Details(int id)
