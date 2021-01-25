@@ -211,9 +211,18 @@
     <Compile Include="Migrations\202101251107341_ChangeBirthdateToNullableInCustomer.Designer.cs">
       <DependentUpon>202101251107341_ChangeBirthdateToNullableInCustomer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101251235037_AddAttributesToMovie.cs" />
+    <Compile Include="Migrations\202101251235037_AddAttributesToMovie.Designer.cs">
+      <DependentUpon>202101251235037_AddAttributesToMovie.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101251237593_PopulateGenre.cs" />
+    <Compile Include="Migrations\202101251237593_PopulateGenre.Designer.cs">
+      <DependentUpon>202101251237593_PopulateGenre.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MembershipType.cs" />
@@ -328,6 +337,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101251107341_ChangeBirthdateToNullableInCustomer.resx">
       <DependentUpon>202101251107341_ChangeBirthdateToNullableInCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101251235037_AddAttributesToMovie.resx">
+      <DependentUpon>202101251235037_AddAttributesToMovie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101251237593_PopulateGenre.resx">
+      <DependentUpon>202101251237593_PopulateGenre.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
