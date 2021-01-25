@@ -17,6 +17,7 @@ else
             <th>Customer Name</th>
             <th>Membership Type</th>
             <th>Discount Rate</th>
+            <th></th>
         </tr>
         <tbody>
             @foreach (var customer in Model)
@@ -25,6 +26,7 @@ else
                 <td>@Html.ActionLink(customer.Name, "Details", new { id = customer.Id })</td>
                 <td>@customer.MembershipType.Name</td>
                 <td>@customer.MembershipType.DiscountRate%</td>
+                <td>@Html.ActionLink("Edit", "Edit", new { id = customer.Id })</td>
             </tr>
             }
         </tbody>

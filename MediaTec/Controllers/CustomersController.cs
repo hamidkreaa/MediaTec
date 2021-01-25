@@ -48,6 +48,28 @@ namespace MediaTec.Controllers
             return View(viewModel);
         }
 
+        //Create Customer
+        [HttpPost]
+        public ActionResult Create(Customer customer)
+        {
+            _context.Customers.Add(customer);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Customers");
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {            
+            var customer = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(c => c.Id == id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(customer);
+        }
+
         public ActionResult Details(int id)
         {
             // var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
