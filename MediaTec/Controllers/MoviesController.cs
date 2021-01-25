@@ -1,4 +1,5 @@
 ﻿using MediaTec.Models;
+using MediaTec.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,30 @@ namespace MediaTec.Controllers
 
         }
 
-        // GET: Movies
-       
+
+        public ActionResult MovieCustomers()
+        {
+            var movie = new Movie() { Name = "Shrek!" };
+
+            var customers = new List<Customer>
+            {
+                new Customer{Name = "Hamid Kreaa"},
+                new Customer{Name = "Farah Kreaa"}
+            };
+
+            var viewModel = new MovieCustomersViewModel
+            {
+                Movie = movie,
+                Customers = customers
+            };
+
+            //ViewData["Movie"] = movie;
+            //ViewBag.Movie = movie;
+
+            return View(viewModel);
+        }
+     
+
 
         // return Content("Hello Hamid");
         // return HttpNotFound();
@@ -53,6 +76,7 @@ namespace MediaTec.Controllers
             return Content(year + "/" + month);
         }
 
+        // GET: Movies
         //http://localhost:52273/movies?Pageindex=2&sortby=Hamid
         public ActionResult index(int? pageIndex, string sortBy)
 
