@@ -9,28 +9,38 @@ namespace MediaTec.Controllers
 {
     public class CustomersController : Controller
     {
+        private ApplicationDbContext _context;
+
         //public List<Customer> Customers;
 
-        //public CustomersController()
-        //{
+        public CustomersController()
+        {
+            _context = new ApplicationDbContext();
 
-        //     Customers = new List<Customer>();
-        //    //{
-        //    //    new Customer{Id =1, Name = "Hamid Kreaa"},
-        //    //    new Customer{Id =2, Name = "Farah Kreaa"}
-        //    //};
-        //}
+           // Customers = new List<Customer>();
+            //{
+            //    new Customer{Id =1, Name = "Hamid Kreaa"},
+            //    new Customer{Id =2, Name = "Farah Kreaa"}
+            //};
+        }
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
 
         // GET: Customers
         public ActionResult Index()
         {
-            var Customers = GetCustomers();
-            return View(Customers);
+            // var customers = GetCustomers();
+            var customers = _context.Customers.ToList();
+         
+            return View(customers);
         }
 
         public ActionResult Details(int id)
         {
-            var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
+            // var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
             if (customer == null)
             {
                 return HttpNotFound();
@@ -39,13 +49,13 @@ namespace MediaTec.Controllers
             return View(customer);
         }
 
-        private IEnumerable<Customer> GetCustomers()
-        {
-            return new List<Customer>
-            {
-                new Customer { Id = 1, Name = "Hamid Kreaa" },
-                new Customer { Id = 2, Name = "Farah Kreaa" }
-            };
-        }
+        //private IEnumerable<Customer> GetCustomers()
+        //{
+        //    return new List<Customer>
+        //    {
+        //        new Customer { Id = 1, Name = "Hamid Kreaa" },
+        //        new Customer { Id = 2, Name = "Farah Kreaa" }
+        //    };
+        //}
     }
 }
