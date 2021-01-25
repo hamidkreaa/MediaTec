@@ -12,8 +12,12 @@ namespace MediaTec.Models
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
+
+        [Display(Name="Date of Birth")]
         public Nullable<DateTime> Birthdate { get; set; }
         public bool IsSubscriebedToNewsletter { get; set; }
+
+        [Display(Name = "Membership Type")]
         public MembershipType MembershipType { get; set; }
         public byte MembershipTypeId { get; set; }
 

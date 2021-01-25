@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MediaTec.ViewModels;
 
 namespace MediaTec.Controllers
 {
@@ -33,8 +34,18 @@ namespace MediaTec.Controllers
         {
             // var customers = GetCustomers();
             var customers = _context.Customers.Include(c=>c.MembershipType).ToList();
-         
+            
             return View(customers);
+        }
+
+        public ActionResult New()
+        {
+            var membershipTypes = _context.MembershipType.ToList();
+            var viewModel = new NewCustomerViewModel
+            {
+                MembershipTypes= membershipTypes
+            };
+            return View(viewModel);
         }
 
         public ActionResult Details(int id)
