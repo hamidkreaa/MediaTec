@@ -1,6 +1,6 @@
 ﻿using MediaTec.Models;
 using MediaTec.ViewModels;
-using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,18 +10,24 @@ namespace MediaTec.Controllers
 {
     public class MoviesController : Controller
     {
-        public List<Movie> Movies;
+        //public List<Movie> Movies;
+        private ApplicationDbContext _context;
 
 
         public MoviesController()
         {
-            Movies = new List<Movie> {
-                new Movie{Id = 1, Name = "Shrek!"},
-                new Movie{Id = 2, Name = "Wall-e"},
-            };
+            //Movies = new List<Movie> {
+            //    new Movie{Id = 1, Name = "Shrek!"},
+            //    new Movie{Id = 2, Name = "Wall-e"},
+            //};
+
+            _context = new ApplicationDbContext();
 
         }
-
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
 
         public ActionResult MovieCustomers()
         {
@@ -85,8 +91,8 @@ namespace MediaTec.Controllers
             //    new Movie{Id = 1, Name = "Shrek!"},
             //    new Movie{Id = 2, Name = "Wall-e"},
             //};
-
-            return View(Movies);
+            var movies = _context.Movies.Include(m=>m.Genre).ToList();
+            return View(movies);
 
             //if (!pageIndex.HasValue)
             //    pageIndex = 1;
@@ -97,8 +103,8 @@ namespace MediaTec.Controllers
 
         public ActionResult Details(int id)
         {
-            var movie = Movies.Find(x => x.Id == id);
-
+            //  var movie = Movies.Find(x => x.Id == id);
+            var movie = _context.Movies.Include(m => m.Genre).Where(m => m.Id == id).FirstOrDefault();
             if (movie == null)
             {
                 return HttpNotFound();
