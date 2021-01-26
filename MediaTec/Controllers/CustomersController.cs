@@ -43,6 +43,7 @@ namespace MediaTec.Controllers
             var membershipTypes = _context.MembershipType.ToList();
             var viewModel = new CustomerFormViewModel
             {
+                Customer = new Customer(),
                 MembershipTypes= membershipTypes
             };
             return View("CustomerForm", viewModel);
@@ -50,6 +51,7 @@ namespace MediaTec.Controllers
 
         //Create Customer
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Customer customer)
         {
             if (!ModelState.IsValid)
@@ -62,6 +64,7 @@ namespace MediaTec.Controllers
 
                 return View("CustomerForm", viewModel);
             }
+
             if(customer.Id ==0)
                 _context.Customers.Add(customer);
             else
