@@ -15,7 +15,7 @@ namespace MediaTec.Dtos
         [StringLength(50)]
         public string Name { get; set; }
 
-        [Min18YearsIfAMember]
+       // [Min18YearsIfAMember]
         public DateTime? Birthdate { get; set; }
 
         public bool IsSubscriebedToNewsletter { get; set; }
