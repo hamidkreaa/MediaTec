@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutoMapper;
+using MediaTec.App_Start;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,7 +15,10 @@ namespace MediaTec
     {
         protected void Application_Start()
         {
+            Mapper.Initialize(c => c.AddProfile<MappingProfile>());
+
             GlobalConfiguration.Configure(WebApiConfig.Register);
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
