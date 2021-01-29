@@ -33,9 +33,11 @@ namespace MediaTec.Controllers
         public ActionResult Index()
         {
             // var customers = GetCustomers();
-            var customers = _context.Customers.Include(c=>c.MembershipType).ToList();
-            
-            return View(customers);
+            // get customers data with ajax Source
+            //var customers = _context.Customers.Include(c=>c.MembershipType).ToList();
+
+            //return View(customers);
+            return View();
         }
 
         public ActionResult New()
