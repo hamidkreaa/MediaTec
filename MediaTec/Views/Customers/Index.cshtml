@@ -16,13 +16,15 @@
 else
 {
     <table id="customers" class="table table­‐bordered table‐hover">
-        <tr>
-            <th>Customer Name</th>
-            <th>Membership Type</th>
-            <th>Discount Rate</th>
-            <th></th>
-            <th></th>
-        </tr>
+        <thead>
+            <tr>
+                <th>Customer Name</th>
+                <th>Membership Type</th>
+                <th>Discount Rate</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
         <tbody>
             @foreach (var customer in Model)
             {
@@ -43,6 +45,8 @@ else
 {
     <script>
         $(document).ready(function () {
+            $("#customers").DataTable();
+
            // $("#customers .js-delete").on("click", function () {
             $("#customers").on("click", ".js-delete", function () {
                 var button = $(this);
