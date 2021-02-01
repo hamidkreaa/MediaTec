@@ -1,4 +1,5 @@
-﻿using MediaTec.Models;
+﻿using MediaTec.Dtos;
+using MediaTec.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using AutoMapper;
 
 namespace MediaTec.Controllers.Api
 {
@@ -19,48 +21,58 @@ namespace MediaTec.Controllers.Api
         }
 
         // GET /api/Movies
-        public IEnumerable<Movie> GetMovies()
+        public IEnumerable<MovieDto> GetMovies()
         {
-            return _context.Movies.Include(m =>m.Genre).ToList();
+            return _context.Movies
+                .Include(m =>m.Genre)
+                .ToList().Select(Mapper.Map<Movie, MovieDto>);
         }
 
         // GET /api/Movies/1
-        public Movie GetMovie(int id)
+        public IHttpActionResult GetMovie(int id)
         {
             var movie = _context.Movies.SingleOrDefault(m => m.Id == id);
             if (movie == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
+                //throw new HttpResponseException(HttpStatusCode.NotFound);
 
-            return movie;
+            //return movie;
+            return Ok(Mapper.Map<Movie, MovieDto>(movie));
         }
 
         // POST //api/Movies
         [HttpPost]
-        public Movie CreateMovie(Movie movie)
+        public IHttpActionResult CreateMovie(MovieDto movieDto)
         {
             if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                // throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
 
+            var movie = Mapper.Map<MovieDto, Movie>(movieDto);
             _context.Movies.Add(movie);
             _context.SaveChanges();
-            return movie;
+
+            // return movie;
+            return Created(new Uri(Request.RequestUri + "/" + movie.Id), movieDto);
         }
 
         // PUT /api/Movies/1
         [HttpPut]
-        public void UpdateMovie(int id, Movie movie)
+        public void UpdateMovie(int id, MovieDto movieDto)
         {
             if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-
+                 throw new HttpResponseException(HttpStatusCode.BadRequest);
+              
             var inDBMovie = _context.Movies.SingleOrDefault(m => m.Id == id);
+
             if (inDBMovie == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
-            inDBMovie.Name = movie.Name;
-            inDBMovie.ReleaseDate = movie.ReleaseDate;
-            inDBMovie.GenreId = movie.GenreId;
-            inDBMovie.NumberInStock = movie.NumberInStock;
+            Mapper.Map(movieDto, inDBMovie);
+            //inDBMovie.Name = movie.Name;
+            //inDBMovie.ReleaseDate = movie.ReleaseDate;
+            //inDBMovie.GenreId = movie.GenreId;
+            //inDBMovie.NumberInStock = movie.NumberInStock;
 
             _context.SaveChanges();
         }
