@@ -17,7 +17,7 @@ namespace MediaTec.App_Start
             Mapper.CreateMap<Movie, MovieDto>();
 
             Mapper.CreateMap<MembershipType, MembershipTypeDto>();
-           // Mapper.CreateMap<Genre, GenreDto>();
+            Mapper.CreateMap<Genre, GenreDto>();
 
 
             // Dto to Domain
