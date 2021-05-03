@@ -69,7 +69,7 @@ namespace MediaTec.Controllers
         //HttpNotFoundResult -> HttpNotFound()
         //EmptyResult -> EmptyResult()
 
-
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult New()
         {
             var genres = _context.Genres.ToList();
@@ -142,21 +142,26 @@ namespace MediaTec.Controllers
 
         // GET: Movies
         //http://localhost:52273/movies?Pageindex=2&sortby=Hamid
-        public ActionResult index(int? pageIndex, string sortBy)
+        public ViewResult index(int? pageIndex, string sortBy)
 
         {
             //var movies = new List<Movie> {
             //    new Movie{Id = 1, Name = "Shrek!"},
             //    new Movie{Id = 2, Name = "Wall-e"},
             //};
-            var movies = _context.Movies.Include(m=>m.Genre).ToList();
-            return View(movies);
+            //var movies = _context.Movies.Include(m=>m.Genre).ToList();
+            //return View(movies);
 
             //if (!pageIndex.HasValue)
             //    pageIndex = 1;
             //if (string.IsNullOrWhiteSpace(sortBy))
             //    sortBy = "Name";
             //return Content(string.Format("PageIndex={0}&sortBy{1}", pageIndex,sortBy));
+
+            if (User.IsInRole(RoleName.CanManageMovies))
+                return View("List");
+
+            return View("ReadOnlyList");
         }
 
         public ActionResult Details(int id)

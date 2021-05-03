@@ -1,0 +1,73 @@
+﻿@model IEnumerable<MediaTec.Models.Movie>
+@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Movies</h2>
+
+
+@*@if (Model.Count() == 0)
+{
+    <p>No one has rented this movie before.</p>
+}
+else
+{*@
+    <table id="movies" class="table table­‐bordered table‐hover">
+        <thead>
+            <tr>
+                <th>Movie Name</th>
+                <th>Genre</th>
+               
+            </tr>
+        </thead>
+        <tboody>
+        </tboody>
+        @*@foreach (var movie in Model)
+        {
+            
+            <tr>
+                <td>@Html.ActionLink(movie.Name, "Details", new { id = movie.Id })</td>
+                <td>@movie.Genre.Name</td>
+                <td>@Html.ActionLink("Edit", "Edit", new { id = movie.Id })</td>
+            </tr>
+        }*@
+    </table>
+
+@*}*@
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#movies").DataTable({
+                ajax: {
+                   url: "/api/movies/",
+                    dataSrc:""
+                },
+                columns: [
+                    {
+                        data: "name",
+                    },
+                    {
+                        data: "genre.name",
+                    }
+                ]
+            });
+
+           // $("#customers .js-delete").on("click", function () {           
+                //if (confirm("Are you sure you want to delete this customer?")) {
+                //    var button = $(this);
+                //    $.ajax({
+                //        url: "/api/customers/" + button.attr("data-customer-id"),
+                //        method: "DELETE",
+                //        success: function () {
+                //            button.parents("tr").remove();
+                //           // console.log("Success");
+                //        }
+                //    });
+                //}
+            });
+      
+    </script>
+}
