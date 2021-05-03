@@ -65,6 +65,10 @@ namespace MediaTec.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Driving License")]
+        public string DrivingLicense { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "E-Mail")]
         public string Email { get; set; }
